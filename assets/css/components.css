@@ -7,12 +7,35 @@
     flex-direction: column;
 }
 
+.app-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+
+    padding: 1rem 1.5rem;
+}
+
+.app-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border);
+
+    padding: 1rem 1.5rem;
+
+    color: var(--text-secondary);
+    font-size: .875rem;
+}
+
 .logo {
     display: flex;
     align-items: center;
     gap: 1rem;
-
-    margin-bottom: 2rem;
 }
 
 .logo h1 {
@@ -100,4 +123,14 @@ nav button.active {
 
     margin-bottom:.5rem;
 
+}
+
+/* Responsive: when the app shell stacks (see layout.css @768px),
+   swap the sidebar's side border for a bottom border so it reads
+   correctly as a horizontal section rather than a vertical rail. */
+@media (max-width: 768px) {
+    .sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
 }

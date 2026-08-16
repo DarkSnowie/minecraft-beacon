@@ -1,123 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Minecraft Beacon</title>
-
-    <link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minecraft Beacon</title>
+  <meta name="description" content="Minecraft Beacon — an offline companion app for tracking Minecraft Bedrock Edition progress: achievements, farms, collections, and notes.">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
-
 <body>
 
-<div class="app">
+  <div class="app">
 
-    <aside class="sidebar">
+    <!-- Global application header (banner landmark) -->
+    <header class="app-header">
+      <div class="logo">
+        <span class="logo__icon" aria-hidden="true">⛏</span>
+        <h1>Minecraft Beacon</h1>
+      </div>
+    </header>
 
-        <div class="logo">
+    <!-- Primary navigation -->
+    <nav class="sidebar" aria-label="Primary">
+      <button type="button" data-page="dashboard" class="active" aria-current="page">Dashboard</button>
+      <button type="button" data-page="achievements">Achievements</button>
+      <button type="button" data-page="farms">Farms</button>
+      <button type="button" data-page="collections">Collections</button>
+      <button type="button" data-page="notes">Notes</button>
+    </nav>
 
-            <h1>⛏</h1>
+    <!-- Main content: dynamically populated by router.js / pages/*.js -->
+    <main id="content" aria-live="polite">
+      <header>
+        <h2 id="title">Dashboard</h2>
+        <p>Your Minecraft Bedrock progress at a glance.</p>
+      </header>
 
-            <h2>Beacon</h2>
-
-        </div>
-
-        <nav>
-
-            <button class="active">
-                🏠 Dashboard
-            </button>
-
-            <button>
-                🏆 Achievements
-            </button>
-
-            <button>
-                🌾 Farms
-            </button>
-
-            <button>
-                📀 Collections
-            </button>
-
-            <button>
-                👨 Villagers
-            </button>
-
-            <button>
-                📝 Notes
-            </button>
-
-            <button>
-                ⚙ Settings
-            </button>
-
-        </nav>
-
-    </aside>
-
-    <main>
-
-        <header>
-
-            <h1>Dashboard</h1>
-
-            <p>
-                Welcome to Minecraft Beacon
-            </p>
-
-        </header>
-
-        <section class="dashboard-grid">
-
-            <div class="card">
-
-                <h3>Achievements</h3>
-
-                <h2>0 / 133</h2>
-
-            </div>
-
-            <div class="card">
-
-                <h3>Today's Goals</h3>
-
-                <ul>
-
-                    <li>Build Starter House</li>
-
-                    <li>Mine Iron</li>
-
-                    <li>Find Village</li>
-
-                </ul>
-
-            </div>
-
-            <div class="card">
-
-                <h3>Current Phase</h3>
-
-                <p>Early Game</p>
-
-            </div>
-
-            <div class="card">
-
-                <h3>Statistics</h3>
-
-                <p>Coming Soon...</p>
-
-            </div>
-
+      <div class="dashboard-grid">
+        <section class="card" aria-labelledby="progress-heading">
+          <h3 id="progress-heading">Progress</h3>
+          <div class="progress" role="progressbar" aria-labelledby="progress-heading" aria-valuenow="0" aria-valuemin="0" aria-valuemax="133">
+            <div id="bar"></div>
+          </div>
+          <p><span id="done">0</span>/133 achievements</p>
         </section>
-
+      </div>
     </main>
 
-</div>
+    <!-- Optional global footer (contentinfo landmark) -->
+    <footer class="app-footer">
+      <p>Minecraft Beacon &mdash; Offline Companion for Minecraft Bedrock Edition</p>
+    </footer>
 
-<script type="module" src="assets/js/app.js"></script>
+  </div>
 
+  <script type="module" src="assets/js/app.js"></script>
 </body>
 </html>

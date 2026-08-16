@@ -1,15 +1,33 @@
 .app {
     display: grid;
     grid-template-columns: 280px 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "header header"
+        "sidebar main"
+        "footer footer";
     min-height: 100vh;
 }
 
+.app-header {
+    grid-area: header;
+}
+
+.sidebar {
+    grid-area: sidebar;
+}
+
 main {
+    grid-area: main;
     display: flex;
     flex-direction: column;
     padding: 2rem;
     gap: 2rem;
     overflow-y: auto;
+}
+
+.app-footer {
+    grid-area: footer;
 }
 
 header {
@@ -31,4 +49,17 @@ header p {
     display: grid;
     gap: 1.5rem;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* Stack the app shell on narrow viewports so the fixed-width sidebar
+   column doesn't crowd out main content (mobile-first responsive fix). */
+@media (max-width: 768px) {
+    .app {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "sidebar"
+            "main"
+            "footer";
+    }
 }
