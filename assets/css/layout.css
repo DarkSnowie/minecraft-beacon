@@ -1,15 +1,34 @@
-.app{
-
-    display:flex;
-
-    min-height:100vh;
-
+.app {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
 }
 
-main{
+main {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 2rem;
+    overflow-y: auto;
+}
 
-    flex:1;
+header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
 
-    padding:30px;
+header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+}
 
+header p {
+    color: var(--text-secondary);
+}
+
+.dashboard-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
