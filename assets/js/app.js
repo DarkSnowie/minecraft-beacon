@@ -6,11 +6,11 @@
  * together — none of those modules import each other or this file
  * directly, keeping the dependency graph a flat, cycle-free tree.
  *
- * Scope note (Milestone 2): the "dashboard" route now renders the real
- * Dashboard page (pages/dashboard.js) instead of reattaching the
- * original static markup. All other routes still render lightweight
- * placeholder content — the Achievement Tracker and other features are
- * not implemented yet.
+ * Scope note (Milestone 3): the "dashboard" and "achievements" routes
+ * now render their real pages (pages/dashboard.js, pages/achievements.js)
+ * instead of static/placeholder content. Farms, Collections, and Notes
+ * still render lightweight placeholder content — those features are not
+ * implemented yet.
  * -----------------------------------------------------------------------
  */
 
@@ -20,6 +20,7 @@ import { qs, clearChildren, createElement } from './ui.js';
 import { initSidebar, setActive } from '../../components/sidebar.js';
 import { createCard } from '../../components/card.js';
 import { renderDashboard } from '../../pages/dashboard.js';
+import { renderAchievements } from '../../pages/achievements.js';
 
 const LAST_ROUTE_KEY = 'lastRoute';
 
@@ -37,7 +38,6 @@ const ROUTE_META = {
   achievements: {
     title: 'Achievements',
     subtitle: 'Track your Bedrock achievement completion.',
-    placeholderMessage: 'Achievement tracking is coming in a future milestone.',
   },
   farms: {
     title: 'Farms',
@@ -80,6 +80,11 @@ function renderRoute(routeName, meta) {
 
   if (routeName === 'dashboard') {
     renderDashboard(content);
+    return;
+  }
+
+  if (routeName === 'achievements') {
+    renderAchievements(content);
     return;
   }
 

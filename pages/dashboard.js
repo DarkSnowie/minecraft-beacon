@@ -5,20 +5,23 @@
  * quick-navigation cards into a container element (app.js passes #content
  * after building the shared page header).
  *
- * Data note (Milestone 2 scope): the Achievement Tracker does not exist
- * yet, so there is no real source of "completed achievements" data. This
- * module reads/writes a small LocalStorage schema —
- * "achievements:completed" (array of {id, name, completedAt}) — that a
- * future Achievement Tracker milestone will populate for real. On first
- * run only, this module seeds a few CLEARLY LABELED mock entries so
- * Recent Activity has something meaningful to render; once seeded, it
- * never overwrites real data. The read/render logic below does not need
- * to change when real tracking is implemented — only the seeding step
- * will be removed.
+ * Data note (Milestone 3 update): "achievements:completed" is now
+ * populated for real by the Achievement Tracker (pages/achievements.js)
+ * whenever a user checks/unchecks an achievement in that page. The
+ * Milestone 2 mock-seeding logic has been removed — Dashboard now reads
+ * only genuine completion data written by the tracker.
  *
- * TOTAL_ACHIEVEMENTS is a mock constant (matching the figure from the
- * original static markup) until data/achievements.json is populated in
- * a future Data Layer milestone — see roadmap notes.
+ * Migration note: Milestone 2 seeded 3 fake "mock-*" entries into
+ * storage on first run (before the Achievement Tracker existed). This
+ * module now strips any leftover "mock-*" entries the first time it
+ * runs post-upgrade, so users who tried Milestone 2 don't see stale
+ * fake activity mixed in with real progress.
+ *
+ * TOTAL_ACHIEVEMENTS remains a placeholder constant until
+ * data/achievements.json is populated with real Bedrock data (see TODO
+ * below). The Achievement Tracker currently uses its own small
+ * placeholder dataset (10 sample entries) that is intentionally NOT yet
+ * unified with this number — see roadmap Data Layer milestone.
  * -----------------------------------------------------------------------
  */
 
@@ -29,12 +32,12 @@ import * as storage from '../assets/js/storage.js';
 import { navigate } from '../assets/js/router.js';
 
 // TODO: replace with real data from data/achievements.json once that
-// file is populated (Data Layer milestone). Value matches the figure
-// already used in the project's original static markup.
+// file is populated with official Bedrock achievement data (Data Layer
+// milestone). Value matches the figure already used in the project's
+// original static markup.
 const TOTAL_ACHIEVEMENTS = 133;
 
 const COMPLETED_KEY = 'achievements:completed';
-const SEEDED_KEY = 'achievements:seeded';
 
 const QUICK_NAV_DESTINATIONS = [
   { route: 'achievements', title: 'Achievements', description: 'View and track your achievements.' },
@@ -44,40 +47,21 @@ const QUICK_NAV_DESTINATIONS = [
 ];
 
 /**
- * Builds a small set of clearly-labeled MOCK "recently completed"
- * entries, spread across the last few days, so Recent Activity has
- * something to display before a real Achievement Tracker exists.
- * @returns {{id: string, name: string, completedAt: string}[]}
- */
-function buildMockSeedActivity() {
-  const now = Date.now();
-  const day = 24 * 60 * 60 * 1000;
-
-  return [
-    { id: 'mock-1', name: 'Sample Achievement A', completedAt: new Date(now - 3 * day).toISOString() },
-    { id: 'mock-2', name: 'Sample Achievement B', completedAt: new Date(now - 1 * day).toISOString() },
-    { id: 'mock-3', name: 'Sample Achievement C', completedAt: new Date(now).toISOString() },
-  ];
-}
-
-/**
- * Seeds mock activity into storage exactly once. Safe to call on every
- * Dashboard render — it no-ops after the first successful seed.
- */
-function seedMockActivityIfNeeded() {
-  const alreadySeeded = storage.getItem(SEEDED_KEY, false);
-  if (alreadySeeded) return;
-
-  storage.setItem(COMPLETED_KEY, buildMockSeedActivity());
-  storage.setItem(SEEDED_KEY, true);
-}
-
-/**
- * Reads the current list of completed achievements from storage.
+ * Reads completion data from storage, transparently removing any
+ * leftover Milestone 2 mock entries (ids prefixed "mock-") so stale
+ * fake activity never mixes with real progress. Idempotent: once
+ * cleaned, subsequent calls find nothing left to remove.
  * @returns {{id: string, name: string, completedAt: string}[]}
  */
 function getCompletedAchievements() {
-  return storage.getItem(COMPLETED_KEY, []);
+  const entries = storage.getItem(COMPLETED_KEY, []);
+  const cleaned = entries.filter((entry) => !String(entry.id).startsWith('mock-'));
+
+  if (cleaned.length !== entries.length) {
+    storage.setItem(COMPLETED_KEY, cleaned);
+  }
+
+  return cleaned;
 }
 
 /**
@@ -218,8 +202,6 @@ function buildQuickNavSection() {
  */
 export function renderDashboard(container) {
   if (!container) return;
-
-  seedMockActivityIfNeeded();
 
   container.appendChild(buildStatsSection());
   container.appendChild(buildQuickNavSection());

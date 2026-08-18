@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "status": "placeholder",
+  "note": "PLACEHOLDER DATA — sample entries for development and testing only. These are NOT real Minecraft Bedrock Edition achievements. Official achievement names, descriptions, categories, and the full official count must be sourced from Minecraft's official documentation before this file is accurate. See README/roadmap notes: Data Layer milestone.",
+  "achievements": [
+    {
+      "id": "sample-001",
+      "name": "Sample Achievement: First Steps",
+      "description": "Placeholder description for a beginner-tier sample achievement.",
+      "category": "Sample Category: Getting Started"
+    },
+    {
+      "id": "sample-002",
+      "name": "Sample Achievement: Basic Tools",
+      "description": "Placeholder description about crafting a first set of basic tools.",
+      "category": "Sample Category: Getting Started"
+    },
+    {
+      "id": "sample-003",
+      "name": "Sample Achievement: Cave Explorer",
+      "description": "Placeholder description about exploring underground for the first time.",
+      "category": "Sample Category: Exploration"
+    },
+    {
+      "id": "sample-004",
+      "name": "Sample Achievement: Distant Lands",
+      "description": "Placeholder description about traveling far from the starting point.",
+      "category": "Sample Category: Exploration"
+    },
+    {
+      "id": "sample-005",
+      "name": "Sample Achievement: First Victory",
+      "description": "Placeholder description about defeating a hostile mob for the first time.",
+      "category": "Sample Category: Combat"
+    },
+    {
+      "id": "sample-006",
+      "name": "Sample Achievement: Tough Fight",
+      "description": "Placeholder description about defeating a particularly difficult enemy.",
+      "category": "Sample Category: Combat"
+    },
+    {
+      "id": "sample-007",
+      "name": "Sample Achievement: Simple Shelter",
+      "description": "Placeholder description about building a basic shelter.",
+      "category": "Sample Category: Building"
+    },
+    {
+      "id": "sample-008",
+      "name": "Sample Achievement: Grand Design",
+      "description": "Placeholder description about completing an elaborate build.",
+      "category": "Sample Category: Building"
+    },
+    {
+      "id": "sample-009",
+      "name": "Sample Achievement: First Harvest",
+      "description": "Placeholder description about growing and harvesting crops.",
+      "category": "Sample Category: Farming"
+    },
+    {
+      "id": "sample-010",
+      "name": "Sample Achievement: Livestock Keeper",
+      "description": "Placeholder description about breeding animals for the first time.",
+      "category": "Sample Category: Farming"
+    }
+  ]
+}
