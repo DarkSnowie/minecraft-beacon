@@ -5,9 +5,8 @@
  * `.progress` / inner-bar-div structure and styling already defined in
  * assets/css/style.css and index.html's dashboard progress bar.
  *
- * Not yet consumed by any page in this milestone (no real progress data
- * exists until the Achievements feature is implemented), but built as a
- * complete, reusable component ready for that work.
+ * Consumed by pages/dashboard.js (Milestone 2) for the Completion %
+ * stat card. The API required no changes to support that usage.
  * -----------------------------------------------------------------------
  */
 

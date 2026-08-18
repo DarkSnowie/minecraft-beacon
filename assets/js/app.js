@@ -6,11 +6,11 @@
  * together — none of those modules import each other or this file
  * directly, keeping the dependency graph a flat, cycle-free tree.
  *
- * Scope note (Milestone 1): route handlers below render lightweight
- * placeholder content for achievements/farms/collections/notes, and
- * restore the Dashboard's original static markup unchanged. No real
- * feature logic (achievement data, farm tracking, etc.) is implemented
- * yet — that begins in later milestones.
+ * Scope note (Milestone 2): the "dashboard" route now renders the real
+ * Dashboard page (pages/dashboard.js) instead of reattaching the
+ * original static markup. All other routes still render lightweight
+ * placeholder content — the Achievement Tracker and other features are
+ * not implemented yet.
  * -----------------------------------------------------------------------
  */
 
@@ -19,6 +19,7 @@ import * as router from './router.js';
 import { qs, clearChildren, createElement } from './ui.js';
 import { initSidebar, setActive } from '../../components/sidebar.js';
 import { createCard } from '../../components/card.js';
+import { renderDashboard } from '../../pages/dashboard.js';
 
 const LAST_ROUTE_KEY = 'lastRoute';
 
@@ -56,29 +57,9 @@ const ROUTE_META = {
 };
 
 /**
- * Reference to the ORIGINAL `.dashboard-grid` element already present
- * in index.html (the real progress card, with its existing #bar/#done
- * ids and ARIA attributes intact). Captured once at startup, before any
- * rendering has touched #content, then moved (not cloned) in and out of
- * #content as the user navigates to and from the dashboard — so the
- * exact original DOM node, unmodified, is what's always shown.
- * @type {Element|null}
- */
-let dashboardBodyNode = null;
-
-/**
- * Captures the original dashboard body markup before any route
- * rendering has occurred. Must run before registerRoutes()/router.init().
- */
-function captureOriginalDashboardMarkup() {
-  dashboardBodyNode = qs('.dashboard-grid');
-}
-
-/**
  * Renders the given route into #content: a freshly-built page header
- * (title + subtitle), followed by either the original dashboard body
- * (for the "dashboard" route) or a placeholder card (for every other
- * route).
+ * (title + subtitle), followed by either the real Dashboard page (for
+ * the "dashboard" route) or a placeholder card (for every other route).
  * @param {string} routeName
  * @param {{title: string, subtitle?: string, placeholderMessage?: string}} meta
  */
@@ -97,8 +78,8 @@ function renderRoute(routeName, meta) {
 
   content.appendChild(header);
 
-  if (routeName === 'dashboard' && dashboardBodyNode) {
-    content.appendChild(dashboardBodyNode);
+  if (routeName === 'dashboard') {
+    renderDashboard(content);
     return;
   }
 
@@ -151,11 +132,10 @@ function resolveInitialRoute() {
 }
 
 /**
- * Wires up the application: captures original markup, registers
- * routes, binds the sidebar, and starts the router.
+ * Wires up the application: registers routes, binds the sidebar, and
+ * starts the router.
  */
 function bootstrap() {
-  captureOriginalDashboardMarkup();
   registerRoutes();
 
   initSidebar({
